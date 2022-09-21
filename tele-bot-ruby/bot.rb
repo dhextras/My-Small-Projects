@@ -217,7 +217,7 @@ Telegram::Bot::Client.run(token) do |bot|
                 
                 # source
                 elsif message1 == "📁 Source"
-                    url_source = Telegram::Bot::Types::InlineKeyboardButton.new(text: '📁 Click Here', url: "https://www.google.com")
+                    url_source = Telegram::Bot::Types::InlineKeyboardButton.new(text: '📁 Click Here', url: "https://github.com/UrabeM/My-Small-Projects/blob/main/tele-bot-ruby/")
                     source_kb = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: url_source)
                     bot.api.send_message(chat_id: chat_id, text: "Here is the source of this bot.\nYou can use it on your bots as well 🥳.", reply_markup: source_kb)
                 # author
