@@ -1,0 +1,46 @@
+{
+    "Series": [
+        {
+            "Name": "saw",
+            "State": "w"
+        },
+        {
+            "Name": "money heist",
+            "State": "w"
+        },
+        {
+            "Name": "got",
+            "State": "u"
+        },
+        {
+            "Name": "peaky blinders",
+            "State": "n"
+        },
+        {
+            "Name": "loki",
+            "State": "w"
+        }
+    ],
+    "Movie": [
+        {
+            "Name": "fast and furious",
+            "State": "w"
+        },
+        {
+            "Name": "matrix",
+            "State": "n"
+        },
+        {
+            "Name": "avengers",
+            "State": "u"
+        },
+        {
+            "Name": "saw",
+            "State": "u"
+        },
+        {
+            "Name": "catch me if u can",
+            "State": "w"
+        }
+    ]
+}

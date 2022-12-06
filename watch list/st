@@ -1,0 +1,321 @@
+#!/bin/bash
+# Note: 'lolcat' is a tool which will colorize ur text in a nice way unfortunatly. it's only available on linux
+
+# Help option
+HELP(){
+    # storing the vars
+    Arg=$OPTARG
+    Bash_Script=$0
+    Pwd=$(pwd)
+    export Arg Bash_Script Pwd
+
+    python3 - << EOF
+# PyScript Start #
+
+import os
+from st import Help as hp
+
+# importing variable from bash
+arg = os.environ['Arg']
+arg.lower()
+
+# python will do the rest.
+hp.run(arg)
+
+# PyScript End #
+EOF
+}
+
+# Add option
+ADD(){
+    # Name
+    Name="0"
+
+    while [[ $Name =~ ^[+-]?[0-9]+$ ]]; do
+        read -rp "Enter the Name(1 Letter must): " Name; Name=${Name,,}
+        
+        # checking for null and numbers
+        if [ -z "$Name" ]; then
+            echo; echo "Exitting..."; exit
+        fi
+    done
+
+    # State
+    State=""
+
+    while [ "$State" != "w" ] && [ "$State" != "u" ] && [ "$State" != "n" ]; do
+        read -rp "Enter the state of '$Name'. ['N'/'W'/'U']: " State; State=${State,,}
+
+        # exit if input is null
+        if [ -z "$State" ]; then
+            echo; echo "Exitting..."; exit
+        fi
+    done
+
+    # Type
+    Type=""
+
+    while [ "$Type" != "m" ] && [ "$Type" != "s" ]; do
+        read -rp "Is it a Movie/Series ['M'/'S']: " Type; Type=${Type,,}
+
+        # exit if input is null
+        if [ -z "$Type" ]; then
+            echo; echo "Exitting..."; exit
+        fi
+    done
+    
+    # Exporting vars to local so we can access them in pyscript
+    export Name State Type
+
+    python3 - << EOF
+# PyScript Start #
+
+import os
+from time import sleep as ts
+from st import Store
+
+# importing variable from bash
+name = os.environ['Name']
+state = os.environ['State']
+type = os.environ['Type']
+
+data = {
+    "Name": name,
+    "State": state 
+}
+
+# python will do the rest.
+Store.add(data, type)
+ts(4)
+
+# PyScript End #
+EOF
+clear
+}
+
+# Change option
+CHANGE(){
+    # Name
+    Name="0"
+
+    # avoiding inputs with only numbers
+    while [[ $Name =~ ^[+-]?[0-9]+$ ]]; do
+        read -rp "Enter the Name you want to change state of(1 Letter must): " Name; Name=${Name,,}
+        
+        # exit if input is null
+        if [ -z "$Name" ]; then
+            echo; echo "Exitting..."; exit
+        fi
+    done
+
+    # State
+    State=""
+
+    while [ "$State" != "w" ] && [ "$State" != "u" ] && [ "$State" != "n" ]; do
+        read -rp "Enter the new state of '$Name' ['N'/'W'/'U']: " State; State=${State,,}
+
+        # exit if input is null
+        if [ -z "$State" ]; then
+            echo; echo "Exitting..."; exit
+        fi
+    done
+
+    # Type
+    Type=""
+
+    while [ "$Type" != "m" ] && [ "$Type" != "s" ]; do
+        read -rp "Is it a Movie/Series ['M'/'S']: " Type; Type=${Type,,}
+
+        # exit if input is null
+        if [ -z "$Type" ]; then
+            echo; echo "Exitting..."; exit
+        fi
+    done
+
+    # Exporting vars to local so we can access them in pyscript
+    export Name State Type
+
+    python3 - << EOF
+# PyScript Start #
+
+import os
+from time import sleep as ts
+from st import Store
+
+# importing variable from bash
+name = os.environ['Name']
+state = os.environ['State']
+type = os.environ['Type']
+
+# python will do the rest.
+Store.change(name, state, type)
+ts(4)
+
+# PyScript End #
+EOF
+clear
+}
+
+# Read option
+READ(){
+    # sort out by Letter
+    Ltr1="n"
+    
+    while [ "$Ltr1" != "y" ]; do
+        read -rp "You wanna Sort out by first Ltrter or not. ['Y'/' ']: " Ltr1; Ltr1=${Ltr1,,}
+
+        if [ -z "$Ltr1" ]; then
+            Ltr1="n"; break
+        # exit if input is null
+        elif [ "$Ltr1" == "0" ]; then
+            echo; echo "Exitting..."; exit
+        fi
+    done
+
+    # Letter.
+    Ltr2="null"; Arr=('a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j''k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 'u' 'v' 'w' 'x' 'y' 'z')
+
+    if [ "$Ltr1" == "y" ]; then
+        while [[ ! " ${Arr[*]} " =~ ${Ltr2} ]]; do
+            read -rp "Pls Enter the Letter [Only One]. (' ' for Symbols & Numbers): " Ltr2; Ltr2=${Ltr2,,}
+
+            if [ -z "$Ltr2" ]; then
+                Ltr2="null"; break
+            # exit if input is null
+            elif [ "$Ltr2" == "0" ]; then
+                echo; echo "Exitting..."; exit
+            fi
+        done
+    fi
+
+    # Type
+    Type=""; echo
+
+    while [ "$Type" != "m" ] && [ "$Type" != "s" ]; do
+        read -rp "Movies or Series ['M'/'S'/' ']: " Type; Type=${Type,,}
+
+        if [ -z "$Type" ]; then
+        break
+        # exit if input is null
+        elif [ "$Type" == "0" ]; then
+            echo; echo "Exitting..."; exit
+        fi
+    done
+
+    # State
+    State=""; echo
+    echo "How you wanna sort out the data." 
+
+    while [ "$State" != "w" ] && [ "$State" != "u" ] && [ "$State" != "n" ]; do
+        read -rp "Choose between ['N'/'W'/'U/' ']: " State; State=${State,,}
+
+        if [ -z "$State" ]; then
+        break
+        # exit if input is null
+        elif [ "$State" == "0" ]; then
+            echo; echo "Exitting..."; exit
+        fi
+    done
+
+    # Exporting vars to local so we can use them in pyscript
+    export Type State Ltr1 Ltr2
+
+    python3 - << EOF
+# PyScript Start #
+
+import os
+from st import Store
+
+# importing variable from bash
+type = os.environ['Type']
+state = os.environ['State']
+ltr1 = os.environ['Ltr1']
+ltr2 = os.environ['Ltr2']
+
+# python will do the rest.
+Store.read(ltr1, ltr2, type, state)
+
+# PyScript End #
+EOF
+}
+
+# Version and Name
+MAIN(){
+    # Main Note.
+    vers="1.0"
+    nm="Watch List"
+    cr="M_Urabe"
+
+echo "
+* Name: $nm
+* Version: $vers
+* Credit: $cr
+
+Run './st -h' or 'bash st -h' for help."
+}
+
+# Clean looking top with lolcat and "#"
+CLEAN(){
+    clear
+
+    python3 - << EOF
+# Pyscript start #
+
+print(f"{135*'#'}\n{135*'#'}")
+
+a, b = 40, 55 
+while True:
+    print(f"{int(a)*'#'}{int(b)*' '}{int(a)*'#'}")
+    a -= 5
+    b += 10
+    if a <= 0: break
+
+print('')
+
+#Pyscript End #
+EOF
+}
+
+# To avoid error from using "lolcat"
+CHECK(){
+    Platform=$(python3 st.py)
+    
+    # we need to check if its linux or not bcs lolcat only available on linux.
+    if [ "$Platform" == "linux" ]; then
+        $Command | lolcat
+        # later i need to check if lolcat was installed or not other wise return with out lol cat.
+    else
+        $Command
+    fi
+}
+
+# to avoid error on "lolcat" not installed or supported devices
+Command=CLEAN
+
+# all Options
+while getopts :h:acr options; do
+    case $options in
+        h)
+            CHECK; HELP;;
+        a)
+            CHECK
+            while true; do
+                ADD
+            done;;
+        c)  
+            CHECK
+            while true; do
+                CHANGE
+            done;;
+        r)
+            CHECK; READ;;
+        \?)
+            echo "[Error1]: Invalid Flag" 
+            exit;;
+        :)
+            CHECK; HELP;;
+    esac
+done
+
+# if no flags or arguments were passed on
+(( $# )) || Command=MAIN CHECK
