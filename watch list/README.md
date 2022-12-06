@@ -5,5 +5,5 @@ pls read out the help function for the bash script with `bash st -h` so you woul
 
 
 ## Contact details
-    ** Telegram : `@I_Yuji`
-    ** Discord : `Urabe Mikoto#0728`
+    * Telegram : `@I_Yuji`
+    * Discord : `Urabe Mikoto#0728`
