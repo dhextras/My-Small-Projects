@@ -6,4 +6,4 @@ There Are 4 Simple Games Defined here
 
 * Basic Idea Is From "**kying18**" The Youtuber
 * But I Modified It To A Good Extend
-   * M_Urabe - `Urabe Mikoto#0728` {Discord} , `@I_Yuji` {Telegram} => Tell Me If There Was Any Problems Bcs. Im Still Learning.
+   * Dhextras - `dhextras_ai ` {Discord} , `@dhextras_ai` {Telegram} => Tell Me If There Was Any Problems Bcs. Im Still Learning.
